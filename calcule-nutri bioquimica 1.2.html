@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calcule Nutri - Nutricionando Ideias</title>
+    <style>
+        /* Previous styles remain the same */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #ff9933, #ffcc00, #3399ff, #33cc33);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            color: #ff6600;
+            margin-bottom: 0.5rem;
+        }
+
+        .calculators-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 2rem;
+        }
+
+        .calculator {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .calculator h2 {
+            color: #ff6600;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .calculator p {
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+        }
+
+        button {
+            background: #ff6600;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        button:hover {
+            background: #ff8533;
+        }
+
+        .result {
+            margin-top: 1rem;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .calculators-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Previous header and calculators remain the same -->
+        
+        <!-- New Calculators -->
+        <div class="calculators-grid">
+            <!-- Previous calculators remain -->
+
+            <!-- HOMA-IR Calculator -->
+            <div class="calculator">
+                <h2>Calculadora HOMA-IR</h2>
+                <p>Avalia a resistência à insulina.</p>
+                <form id="homa-ir-form">
+                    <div class="form-group">
+                        <label>Glicemia de jejum (mg/dL):</label>
+                        <input type="number" id="homa-glicemia" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Insulina de jejum (μU/mL):</label>
+                        <input type="number" id="homa-insulina" required>
+                    </div>
+                    <button type="button" onclick="calcularHOMAIR()">Calcular HOMA-IR</button>
+                    <div id="homa-ir-resultado" class="result"></div>
+                </form>
+            </div>
+
+            <!-- HOMA-beta Calculator -->
+            <div class="calculator">
+                <h2>Calculadora HOMA-beta</h2>
+                <p>Mede a função das células beta pancreáticas.</p>
+                <form id="homa-beta-form">
+                    <div class="form-group">
+                        <label>Glicemia de jejum (mg/dL):</label>
+                        <input type="number" id="homa-beta-glicemia" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Insulina de jejum (μU/mL):</label>
+                        <input type="number" id="homa-beta-insulina" required>
+                    </div>
+                    <button type="button" onclick="calcularHOMABeta()">Calcular HOMA-beta</button>
+                    <div id="homa-beta-resultado" class="result"></div>
+                </form>
+            </div>
+
+            <!-- TFG Calculator -->
+            <div class="calculator">
+                <h2>Calculadora TFG</h2>
+                <p>Taxa de Filtração Glomerular - Avaliação da função renal.</p>
+                <form id="tfg-form">
+                    <div class="form-group">
+                        <label>Creatinina sérica (mg/dL):</label>
+                        <input type="number" id="tfg-creatinina" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Idade:</label>
+                        <input type="number" id="tfg-idade" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Sexo:</label>
+                        <select id="tfg-sexo">
+                            <option value="M">Masculino</option>
+                            <option value="F">Feminino</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Raça:</label>
+                        <select id="tfg-raca">
+                            <option value="N">Não negro</option>
+                            <option value="S">Negro</option>
+                        </select>
+                    </div>
+                    <button type="button" onclick="calcularTFG()">Calcular TFG</button>
+                    <div id="tfg-resultado" class="result"></div>
+                </form>
+            </div>
+
+            <!-- Calcium-Albumin Calculator -->
+            <div class="calculator">
+                <h2>Cálcio Corrigido</h2>
+                <p>Correção do cálcio pela albumina sérica.</p>
+                <form id="calcio-form">
+                    <div class="form-group">
+                        <label>Cálcio total (mg/dL):</label>
+                        <input type="number" id="calcio-total" step="0.1" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Albumina (g/dL):</label>
+                        <input type="number" id="albumina" step="0.1" required>
+                    </div>
+                    <button type="button" onclick="calcularCalcioCorrigido()">Calcular Cálcio Corrigido</button>
+                    <div id="calcio-resultado" class="result"></div>
+                </form>
+            </div>
+
+            <!-- Lipid Ratios Calculator -->
+            <div class="calculator">
+                <h2>Razões Lipídicas</h2>
+                <p>Cálculo das razões do perfil lipídico.</p>
+                <form id="lipid-form">
+                    <div class="form-group">
+                        <label>Colesterol Total (mg/dL):</label>
+                        <input type="number" id="colesterol-total" required>
+                    </div>
+                    <div class="form-group">
+                        <label>HDL (mg/dL):</label>
+                        <input type="number" id="hdl" required>
+                    </div>
+                    <div class="form-group">
+                        <label>LDL (mg/dL):</label>
+                        <input type="number" id="ldl" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Triglicerídeos (mg/dL):</label>
+                        <input type="number" id="triglicerides" required>
+                    </div>
+                    <button type="button" onclick="calcularRazoesLipidicas()">Calcular Razões</button>
+                    <div id="lipid-resultado" class="result"></div>
+                </form>
+            </div>
+            <div class="calculator">
+                <h2>Calculadora de Bolus</h2>
+                <p>Cálculo de insulina bolus para refeições em pacientes com Diabetes Mellitus.</p>
+                <form id="bolus-form">
+                    <div class="form-group">
+                        <label>Carboidratos totais da refeição (g):</label>
+                        <input type="number" id="bolus-carb" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Relação Insulina:Carboidrato (1:x):</label>
+                        <input type="number" id="bolus-ratio" placeholder="Ex: 15 para 1:15" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Glicemia atual (mg/dL):</label>
+                        <input type="number" id="bolus-glicemia" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Meta de glicemia (mg/dL):</label>
+                        <input type="number" id="bolus-meta" value="100" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Fator de Sensibilidade (FSI):</label>
+                        <input type="number" id="bolus-fsi" placeholder="mg/dL por 1UI" required>
+                    </div>
+                    <button type="button" onclick="calcularBolus()">Calcular Bolus</button>
+                    <div id="bolus-resultado" class="result"></div>
+                </form>
+            </div>
+        </div>
+
+        <footer>
+            Desenvolvido por David Nutri Fácil
+        </footer>
+    </div>
+
+    <script>
+        // Previous calculator functions remain the same
+
+        function calcularHOMAIR() {
+            const glicemia = parseFloat(document.getElementById('homa-glicemia').value);
+            const insulina = parseFloat(document.getElementById('homa-insulina').value);
+            
+            // Convert glucose from mg/dL to mmol/L
+            const glicemiaMmol = glicemia * 0.0555;
+            
+            const homaIR = (glicemiaMmol * insulina) / 22.5;
+            
+            let interpretacao = '';
+            if (homaIR < 2.5) {
+                interpretacao = 'Normal';
+            } else {
+                interpretacao = 'Sugestivo de resistência à insulina';
+            }
+
+            document.getElementById('homa-ir-resultado').innerHTML = 
+                `HOMA-IR: ${homaIR.toFixed(2)}<br>Interpretação: ${interpretacao}`;
+        }
+
+        function calcularHOMABeta() {
+            const glicemia = parseFloat(document.getElementById('homa-beta-glicemia').value);
+            const insulina = parseFloat(document.getElementById('homa-beta-insulina').value);
+            
+            // Convert glucose from mg/dL to mmol/L
+            const glicemiaMmol = glicemia * 0.0555;
+            
+            const homaBeta = (20 * insulina) / (glicemiaMmol - 3.5);
+
+            document.getElementById('homa-beta-resultado').innerHTML = 
+                `HOMA-beta: ${homaBeta.toFixed(2)}%`;
+        }
+
+        function calcularTFG() {
+            const creatinina = parseFloat(document.getElementById('tfg-creatinina').value);
+            const idade = parseInt(document.getElementById('tfg-idade').value);
+            const sexo = document.getElementById('tfg-sexo').value;
+            const raca = document.getElementById('tfg-raca').value;
+            
+            // CKD-EPI equation
+            let k = sexo === 'F' ? 0.7 : 0.9;
+            let a = sexo === 'F' ? -0.329 : -0.411;
+            let fatorSexo = sexo === 'F' ? 1.018 : 1;
+            let fatorRaca = raca === 'S' ? 1.159 : 1;
+            
+            let tfg = 141 * Math.min(creatinina/k, 1)**a * Math.max(creatinina/k, 1)**-1.209 * 0.993**idade * fatorSexo * fatorRaca;
+            
+            let estagio = '';
+            if (tfg >= 90) estagio = 'G1 - Normal ou Alto';
+            else if (tfg >= 60) estagio = 'G2 - Levemente Diminuído';
+            else if (tfg >= 45) estagio = 'G3a - Leve a Moderadamente Diminuído';
+            else if (tfg >= 30) estagio = 'G3b - Moderadamente a Severamente Diminuído';
+            else if (tfg >= 15) estagio = 'G4 - Severamente Diminuído';
+            else estagio = 'G5 - Falência Renal';
+
+            document.getElementById('tfg-resultado').innerHTML = 
+                `TFG: ${tfg.toFixed(1)} mL/min/1.73m²<br>Estágio: ${estagio}`;
+        }
+
+        function calcularCalcioCorrigido() {
+            const calcioTotal = parseFloat(document.getElementById('calcio-total').value);
+            const albumina = parseFloat(document.getElementById('albumina').value);
+            
+            const calcioCorrigido = calcioTotal + ((4.0 - albumina) * 0.8);
+
+            document.getElementById('calcio-resultado').innerHTML = 
+                `Cálcio Corrigido: ${calcioCorrigido.toFixed(1)} mg/dL`;
+        }
+
+        function calcularRazoesLipidicas() {
+            const colesterolTotal = parseFloat(document.getElementById('colesterol-total').value);
+            const hdl = parseFloat(document.getElementById('hdl').value);
+            const ldl = parseFloat(document.getElementById('ldl').value);
+            const triglicerides = parseFloat(document.getElementById('triglicerides').value);
+            
+            const razaoCtHdl = colesterolTotal / hdl;
+            const razaoLdlHdl = ldl / hdl;
+            const razaoTgHdl = triglicerides / hdl;
+            
+            let resultado = `Razão CT/HDL: ${razaoCtHdl.toFixed(2)}<br>`;
+            resultado += `Razão LDL/HDL: ${razaoLdlHdl.toFixed(2)}<br>`;
+            resultado += `Razão TG/HDL: ${razaoTgHdl.toFixed(2)}`;
+
+            document.getElementById('lipid-resultado').innerHTML = resultado;
+        }
+        {
+            function calcularBolus() {
+            const carboidratos = parseFloat(document.getElementById('bolus-carb').value);
+            const ratio = parseFloat(document.getElementById('bolus-ratio').value);
+            const glicemiaAtual = parseFloat(document.getElementById('bolus-glicemia').value);
+            const glicemiaMeta = parseFloat(document.getElementById('bolus-meta').value);
+            const fsi = parseFloat(document.getElementById('bolus-fsi').value);
+
+            const bolusCarboidratos = carboidratos / ratio;
+            const diferencaGlicemia = glicemiaAtual - glicemiaMeta;
+            const bolusCorrecao = diferencaGlicemia / fsi;
+            const bolusTotal = Math.max(0, bolusCarboidratos + bolusCorrecao);
+
+            let resultado = `<strong>Bolus Total: ${bolusTotal.toFixed(1)} UI</strong><br>` +
+                           `Detalhamento:<br>` +
+                           `• Bolus para carboidratos: ${bolusCarboidratos.toFixed(1)} UI<br>` +
+                           `• Bolus de correção: ${bolusCorrecao.toFixed(1)} UI`;
+
+            if (glicemiaAtual < 70) {
+                resultado += '<br><br>⚠️ Atenção: Hipoglicemia! Tratar hipoglicemia antes da refeição.';
+            } else if (glicemiaAtual > 250) {
+                resultado += '<br><br>⚠️ Atenção: Verificar cetonas se glicemia persistentemente elevada.';
+            }
+
+            document.getElementById('bolus-resultado').innerHTML = resultado;
+        }
+        }
+    </script>
+</body>
+</html>
